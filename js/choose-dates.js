@@ -1,75 +1,93 @@
-const date_picker_element = document.querySelector('.date-picker');
-const dates_element = document.querySelector('.date-picker .dates');
-const next_mth_element = document.querySelector('.date-picker .dates .month .next-mth');
-const prev_mth_element = document.querySelector('.date-picker .dates .month .prev-mth');
-const days_element = document.querySelector('.date-picker .dates .days');
+//selektori za kalendar za odabir početnog datuma
+const date_picker_start=document.getElementById('start-date-picker');
+const dates_el_start = document.getElementById('dates-start');
+const mth_start = document.getElementById('mth-start');
+const next_mth_start = document.getElementById('next-mth-start');
+const prev_mth_start = document.getElementById('prev-mth-start');
+const days_el_start = document.getElementById('days-start');
+const selected_date_start_el = document.getElementById('selected-date-start');
 
-const mth_element_start = document.querySelector('#start-date-picker .dates .month .mth');
-const next_mth_element_start = document.querySelector('#start-date-picker .dates .month .next-mth');
-const prev_mth_element_start = document.querySelector('#start-date-picker .dates .month .prev-mth');
+//selektori za kalendar za odabir zavrsnog datuma
+const date_picker_end=document.getElementById('end-date-picker');
+const dates_el_send = document.getElementById('dates-end');
+const mth_end = document.getElementById('mth-end');
+const next_mth_end= document.getElementById('next-mth-end');
+const prev_mth_end = document.getElementById('prev-mth-end');
+const days_el_end= document.getElementById('days-end');
+const selected_date_end_el = document.getElementById('selected-date-end');
 
-const mth_element_end = document.querySelector('#end-date-picker .dates .month .mth');
-const next_mth_element_end = document.querySelector('#end-date-picker .dates .month .next-mth');
-const prev_mth_element_end = document.querySelector('#end-date-picker .dates .month .prev-mth');
+//svaki kalendar ima svoj niz mjeseci
+const months_start = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months_end = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-const selected_date_el_start = document.querySelector('.date-picker .selected-date-start');
-const selected_date_el_end = document.querySelector('.date-picker .selected-date-end');
-
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 let date = new Date();
-let day = date.getDate();
+let day = date.getDate(); 
 let month = date.getMonth();
 let year = date.getFullYear();
 
-let selectedDate_start = date;
-let selectedDay_start = day;
-let selectedMonth_start = month;
-let selectedYear_start = year;
+let selected_date_start = date;  // initialize with current date
+let selected_day_start = day;
+let selected_month_start = month;
+let selected_year_start = year;
 
-let selectedDate_end = date;
-let selectedDay_end = day;
-let selectedMonth_end = month;
-let selectedYear_end = year;
+let selected_date_end = date;
+ let selected_day_end = day;
+ let selected_month_end = month;
+ let selected_year_end = year;
 
-mth_element_start.textContent = months[month] + ' ' + year;
-mth_element_end.textContent = months[month] + ' ' + year;
+// Popunjavanje početnih podataka
+mth_start.textContent = months_start[month] + ' ' + year;
+mth_end.textContent = months_end[month] + ' ' + year;
 
-selected_date_el_start.textContent = formatDate(selectedDate_start);
-selected_date_el_start.dataset.value = selectedDate_start;
+selected_date_start_el.textContent = formatDate(selected_date_start);
+selected_date_start_el.dataset.value = selected_date_start;
 
-selected_date_el_end.textContent = formatDate(selectedDate_end);
-selected_date_el_end.dataset.value = selectedDate_end;
-
-populateDates();
-
+selected_date_end_el.textContent = formatDate(selected_date_end);
+selected_date_end_el.dataset.value = selected_date_end;
+ 
 // EVENT LISTENERS
-next_mth_element.addEventListener('click', function() {
-    goToNextMonth(mth_element_start);
-  });
-prev_mth_element.addEventListener('click', function() {
-    goToPrevMonth(mth_element_start);
-  });
 
-  function goToNextMonth(mth_element) {
-    month++;
-    if (month > 11) {
-      month = 0;
-      year++;
+//za prvi kalendar mijenjanje mjeseci
+next_mth_start.addEventListener('click', function() {
+    goToNextMonth(mth_start, days_el_start, selected_date_start, months_start);
+});
+
+prev_mth_start.addEventListener('click', function() {
+    goToPrevMonth(mth_start, days_el_start, selected_date_start, months_start);
+});
+
+//za drugi kalendar mijenjanje mjeseci
+next_mth_end.addEventListener('click', function() {
+    goToNextMonth(mth_end, days_el_end, selected_date_end, months_end);
+});
+
+prev_mth_end.addEventListener('click', function() {
+    goToPrevMonth(mth_end, days_el_end, selected_date_end, months_end);
+});
+
+//Zajednicke funkcije za mijenjanje mjeseci
+function goToNextMonth(mth_element, days_element, selected_date_element, months_array) {
+    let currentMonth = months_array.indexOf(mth_element.textContent.split(' ')[0]);
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        year++;
     }
-    mth_element.textContent = months[month] + ' ' + year;
-    populateDates();
-  }
-  
-  function goToPrevMonth(mth_element) {
-    month--;
-    if (month < 0) {
-      month = 11;
-      year--;
+    mth_element.textContent = months_array[currentMonth] + ' ' + year;
+    populateDates(days_element, selected_date_element, currentMonth);
+}
+
+function goToPrevMonth(mth_element, days_element, selected_date_element, months_array) {
+    let currentMonth = months_array.indexOf(mth_element.textContent.split(' ')[0]);
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        year--;
     }
-    mth_element.textContent = months[month] + ' ' + year;
-    populateDates();
-  }
+    mth_element.textContent = months_array[currentMonth] + ' ' + year;
+    populateDates(days_element, selected_date_element, currentMonth);
+}
 
 
 function populateDates () {
@@ -100,6 +118,7 @@ function populateDates () {
 		days_element.appendChild(day_element);
 	}
 }
+*/
 
 function formatDate (d) {
 	let day = d.getDate();
