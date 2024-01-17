@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: #02002B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.navbar {
+    /* background-color: grey; */
+    width: 100%;
+    padding: 1em 0;
+    display: flex;
+    justify-content:space-between; /* Centriranje elemenata */
+    align-items: center;
+    position: fixed; /* Fiksni položaj kako bi ostao na vrhu dok se scrolla */
+    top: 0; /* Postavljanje na vrh stranice */
+    border-bottom: 1px solid white;
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+
+.main-content {
+    background-color: wheat; 
+    margin:auto auto; /* Visina .navbar plus neki razmak */
+	max-height: 40%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    backdrop-filter: blur(25px);
+    border-radius: 15px;
+    padding: 0.5em 1em; 
+    color: black;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.3);
+}
+
+.choose-employee {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-new-pto {
+    /* background-color: rebeccapurple;  */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+.date-picker {
+	/* background-color: #00CA85; */
+	position: relative;
+	width: 100%;
+	max-width:270px;
+	min-height: 300px;
+	margin: 30px auto;
+	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+	justify-content: flex-start;
+    
+
+	cursor: pointer;
+	user-select: none;
+
+		position: relative;
+		width: 100%;
+		max-width: 320px;
+		height: 60px;
+		background-color: #FFF;
+}
+
+.date-picker .selected-date {
+	/* background-color:red; */
+	width: 100%;
+	height: 20%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: #313131;
+	font-size: 18px;
+	border-bottom: 1px solid #EEE;
+}
+
+.date-picker .dates {
+	/* position: absolute; */
+	width: 100%;
+	height: 80%;
+	/* top: 100%;
+	left: 0;
+	right: 0; */
+
+	background-color: #FFF;
+}
+
+.date-picker .dates .month {
+	/* background-color: greenyellow; */
+	display: flex;
+    min-height: 40px;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #EEE;
+}
+
+.date-picker .dates .month .arrows {
+	width: 35px;
+	height: 35px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #313131;
+	font-size: 20px;
+}
+
+.date-picker .dates .month .arrows:hover {
+	background-color: #F3F3F3;
+}
+
+.date-picker .dates .month .arrows:active {
+	background-color: #00CA85;
+}
+
+.date-picker .dates .days {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	height: 200px;
+}
+.date-picker .dates .days .day { 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #313131;
+}
+.date-picker .dates .days .day.selected {
+	background-color: #00CA85;
+}

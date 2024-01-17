@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <title>Document</title>
+</head>
+<body>
+  <div class="navbar">
+    <a href="#" class="logo">PTO Manager</a>
+  </div>
+  <div class="main-content">
+    <div class="add-new-pto">
+      <div class="choose-employee">
+        <label for="employeeDropdown">Choose Employee:</label>
+        <select id="employeeDropdown"></select>
+      </div>
+<!-- Početni datum -->
+<div class="date-picker" id="start-date-picker">
+  <div class="selected-date-start selected-date"></div>
+  <div class="dates">
+    <div class="month">
+      <div class="arrows prev-mth">&lt;</div>
+      <div class="mth"></div>
+      <div class="arrows next-mth">&gt;</div>
+    </div>
+    <div class="days"></div>
+  </div>
+</div>
+
+<!-- Završni datum -->
+<div class="date-picker" id="end-date-picker">
+  <div class="selected-date-end selected-date"></div>
+  <div class="dates">
+    <div class="month">
+      <div class="arrows prev-mth">&lt;</div>
+      <div class="mth"></div>
+      <div class="arrows next-mth">&gt;</div>
+    </div>
+    <div class="days"></div>
+  </div>
+</div>
+  </div>
+
+  <script src="../js/add-new-pto.js"></script>
+  <script src="../js/choose-dates.js"></script>
+</body>
+</html>
