@@ -17,49 +17,54 @@
         <select id="employeeDropdown"></select>
       </div>
 <!-- Početni datum -->
-<div class="date-picker" id="start-date-picker">
-  <div class="selected-date" id="selected-date-start"></div>
-  <div class="dates" id="dates-start">
-    <div class="month" id="month-start">
-      <div class="arrows prev-mth" id="prev-mth-start">&lt;</div>
-      <div class="mth" id="mth-start"></div>
-      <div class="arrows next-mth" id="next-mth-start">&gt;</div>
+  <div class="date-picker" id="start-date-picker">
+    <div class="selected-date" id="selected-date-start"></div>
+    <div class="dates" id="dates-start">
+      <div class="month" id="month-start">
+        <div class="arrows prev-mth" id="prev-mth-start">&lt;</div>
+        <div class="mth" id="mth-start"></div>
+        <div class="arrows next-mth" id="next-mth-start">&gt;</div>
+      </div>
+      <div class="days-of-week">
+        <div class="day-of-week">M</div>
+        <div class="day-of-week">T</div>
+        <div class="day-of-week">W</div>
+       <div class="day-of-week">T</div>
+       <div class="day-of-week">F</div>
+       <div class="day-of-week">S</div>
+       <div class="day-of-week">S</div>
+      </div>
+      <div class="days" id="days-start"></div>
     </div>
-    <div class="days-of-week">
-      <div class="day-of-week">M</div>
-      <div class="day-of-week">T</div>
-      <div class="day-of-week">W</div>
-      <div class="day-of-week">T</div>
-      <div class="day-of-week">F</div>
-      <div class="day-of-week">S</div>
-      <div class="day-of-week">S</div>
-    </div>
-    <div class="days" id="days-start"></div>
   </div>
-</div>
 
 <!-- Završni datum -->
-<div class="date-picker" id="end-date-picker">
-  <div class="selected-date" id="selected-date-end"></div>
-  <div class="dates" id="dates-end">
-    <div class="month" id="month-end">
-      <div class="arrows prev-mth" id="prev-mth-end">&lt;</div>
-      <div class="mth" id="mth-end"></div>
-      <div class="arrows next-mth" id="next-mth-end">&gt;</div>
+  <div class="date-picker" id="end-date-picker">
+    <div class="selected-date" id="selected-date-end"></div>
+    <div class="dates" id="dates-end">
+      <div class="month" id="month-end">
+        <div class="arrows prev-mth" id="prev-mth-end">&lt;</div>
+        <div class="mth" id="mth-end"></div>
+        <div class="arrows next-mth" id="next-mth-end">&gt;</div>
+      </div>
+      <div class="days-of-week">
+        <div class="day-of-week">M</div>
+        <div class="day-of-week">T</div>
+        <div class="day-of-week">W</div>
+        <div class="day-of-week">T</div>
+        <div class="day-of-week">F</div>
+        <div class="day-of-week">S</div>
+        <div class="day-of-week">S</div>
+      </div>
+      <div class="days" id="days-end"></div>
     </div>
-    <div class="days-of-week">
-      <div class="day-of-week">M</div>
-      <div class="day-of-week">T</div>
-      <div class="day-of-week">W</div>
-      <div class="day-of-week">T</div>
-      <div class="day-of-week">F</div>
-      <div class="day-of-week">S</div>
-      <div class="day-of-week">S</div>
+  </div>
+  <button id="addDataBtn">Add PTO</button>
     </div>
-    <div class="days" id="days-end"></div>
-  </div>
-</div>
-  </div>
+
+    <div class="list-of-ptos">
+
+    </div>
 
   <script src="../js/add-new-pto.js"></script>
   <script src="../js/choose-dates.js"></script>

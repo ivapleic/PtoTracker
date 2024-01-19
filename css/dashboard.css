@@ -38,7 +38,7 @@ body {
     background-color: wheat; 
     margin:auto auto; /* Visina .navbar plus neki razmak */
 	max-height: 40%;
-    width: 80%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -60,6 +60,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+	align-items: center;
 
 }
 
@@ -143,15 +144,17 @@ body {
 	grid-template-columns: repeat(7, 1fr);
 	height: 200px;
 }
-.date-picker .dates .days .day { 
+.date-picker .dates .days .day {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: #313131;
-}
-.date-picker .dates .days .day.selected {
+  }
+  
+  .date-picker .dates .days .day.selected {
 	background-color: #00CA85;
-}
+  }
+  
 
 .days-of-week {
      display: grid; 
@@ -168,4 +171,10 @@ body {
     align-items: center;
 	font-size: 12px;
 
+}
+
+
+#addDataBtn {
+	height: 30%;
+	width: 5%;
 }

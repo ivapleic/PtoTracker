@@ -84,20 +84,40 @@ function populateDates(days_element, currentDate,selectedDateEl) {
         day_element.classList.add('day');
         day_element.textContent = i + 1;
 
-        if (
-            currentDate.selectedDate &&
-            currentDate.selectedDate.date === i + 1 &&
-            currentDate.selectedDate.month === currentDate.month &&
-            currentDate.selectedDate.year === currentDate.year
-        ) {
-            day_element.classList.add('selected');
-        }
+        // if (
+        //     currentDate.selectedDate &&
+        //     currentDate.selectedDate.date === i + 1 &&
+        //     currentDate.selectedDate.month === currentDate.month &&
+        //     currentDate.selectedDate.year === currentDate.year
+        // ) {
+        //     day_element.classList.toggle('selected');
+
+        // }
 
         days_element.appendChild(day_element);
     }
 }
 
+function handleDateClick(event, currentDate, selectedDateEl, days_element) {
+    const dayClicked = parseInt(event.target.textContent);
+    const newDate = new Date(currentDate.year, currentDate.month, dayClicked);
 
+    // Update the selected date for the specific calendar
+    currentDate.selectedDate = newDate;
+
+    // Update the display of the selected date
+    selectedDateEl.textContent = formatDate(currentDate.selectedDate);
+    selectedDateEl.dataset.value = currentDate.selectedDate;
+
+    // Remove 'selected' class from all days
+    const allDays = days_element.getElementsByClassName('day');
+    for (let day of allDays) {
+        day.classList.remove('selected');
+    }
+
+    // Add 'selected' class to the clicked day
+    event.target.classList.add('selected');
+}
 
 //EVENT HANDLERI za startDate
 next_mth_start.addEventListener('click', function () {
@@ -127,20 +147,6 @@ days_el_end.addEventListener('click', function (event) {
     handleDateClick(event, endDate, selected_date_end_el);
 });
 
-function handleDateClick(event, currentDate, selectedDateEl) {
-    const dayClicked = parseInt(event.target.textContent);
-    const newDate = new Date(currentDate.year, currentDate.month, dayClicked);
-
-    // Update the selected date for the specific calendar
-    currentDate.selectedDate = newDate;
-
-    // Update the display of the selected date
-    selectedDateEl.textContent = formatDate(currentDate.selectedDate);
-    selectedDateEl.dataset.value = currentDate.selectedDate;
-
-    // Refresh the displayed dates
-    populateDates(days_element, currentDate, selectedDateEl);
-}
 
 
 
