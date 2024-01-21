@@ -1,180 +1,199 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
-    background-color: #02002B;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+  background-color: #02002b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .navbar {
-    /* background-color: grey; */
-    width: 100%;
-    padding: 1em 0;
-    display: flex;
-    justify-content:space-between; /* Centriranje elemenata */
-    align-items: center;
-    position: fixed; /* Fiksni položaj kako bi ostao na vrhu dok se scrolla */
-    top: 0; /* Postavljanje na vrh stranice */
-    border-bottom: 1px solid white;
+  width: 100%;
+  padding: 1em 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  border-bottom: 1px solid white;
 }
 
 .logo {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 20px;
 }
-
 
 .main-content {
-    background-color: wheat; 
-    margin:auto auto; /* Visina .navbar plus neki razmak */
-	max-height: 40%;
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    backdrop-filter: blur(25px);
-    border-radius: 15px;
-    padding: 0.5em 1em; 
-    color: black;
-    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.3);
-}
-
-.choose-employee {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: wheat;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
 }
 
 .add-new-pto {
-    /* background-color: rebeccapurple;  */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-	align-items: center;
+	width: 100%;
+	background-color: rebeccapurple; 
+	display: grid;
+	grid-template-columns: 1.5fr 5fr 1fr;
+	padding: 0.5rem 1em;
+  }
+  
+.choose-employee-note {
+	 background-color:yellow ;  
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+  }
 
+.choose-employee {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* background-color: #eee; */
+  height: 50%;
+}
+
+.note {
+	/* background-color: #00ca85; */
+	height: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.note > input {
+	height: 50%;
+	fle
+}
+
+
+.calendars {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* background-color: red; */
 }
 
 .date-picker {
-	/* background-color: #00CA85; */
-	position: relative;
-	width: 100%;
-	max-width:270px;
-	min-height: 300px;
-	margin: 30px auto;
-	box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-	justify-content: flex-start;
-    
+  min-height: 280px;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 
-	cursor: pointer;
-	user-select: none;
-
-		position: relative;
-		width: 100%;
-		max-width: 320px;
-		height: 60px;
-		background-color: #FFF;
+  cursor: pointer;
+  width: 90%;
+  max-width: 3120px;
+  background-color: beige;
+  margin: 0 1rem;
+  
 }
 
 .date-picker .selected-date {
-	 /* background-color:red;  */
-	width: 100%;
-	height: 20%;
+  background-color: red;
+  width: 90%;
+  height: 10%;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-	color: #313131;
-	font-size: 18px;
-	border-bottom: 1px solid #EEE;
+  color: #313131;
+  font-size: 18px;
+  border-bottom: 1px solid #eee;
 }
 
 .date-picker .dates {
-	/* position: absolute; */
-	width: 100%;
-	height: 90%;
-	/* top: 100%;
+  /* position: absolute; */
+  width: 100%;
+  height: 90%;
+  /* top: 100%;
 	left: 0;
 	right: 0; */
 
-	background-color: #FFF;
+  background-color: coral;
 }
 
 .date-picker .dates .month {
-	/* background-color: greenyellow;  */
-	display: flex;
-    min-height: 40px;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid #EEE;
+  /* background-color: greenyellow;  */
+  display: flex;
+  min-height: 40px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
 }
 
 .date-picker .dates .month .arrows {
-	width: 35px;
-	height: 35px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #313131;
-	font-size: 20px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #313131;
+  font-size: 20px;
 }
 
 .date-picker .dates .month .arrows:hover {
-	background-color: #F3F3F3;
+  background-color: #f3f3f3;
 }
 
 .date-picker .dates .month .arrows:active {
-	background-color: #00CA85;
+  background-color: #00ca85;
 }
 
 .date-picker .dates .days {
-	display: grid;
-	grid-template-columns: repeat(7, 1fr);
-	height: 200px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 200px;
 }
 .date-picker .dates .days .day {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: #313131;
-  }
-  
-  .date-picker .dates .days .day.selected {
-	background-color: #00CA85;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #313131;
+}
+
+.date-picker .dates .days .day.selected {
+  background-color: #00ca85;
+}
 
 .days-of-week {
-     display: grid; 
-     grid-template-columns: repeat(7, 1fr); 
-    height: 20px;
-	border-bottom: 1px solid #EEE;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 20px;
+  border-bottom: 1px solid #eee;
 }
 
 .day-of-week {
-	width: 42px;
-	/* background-color: wheat; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-	font-size: 12px;
-
+  width: 42px;
+  /* background-color: wheat; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
 }
 
+.button-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 #addDataBtn {
-	height: 30%;
-	width: 5%;
+  height: 15%;
+  width: 70%;
 }
