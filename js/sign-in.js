@@ -1,6 +1,7 @@
-const LogInButton = document.querySelector('.input-submit');
+const loginButton = document.getElementById('loginButton'); // Update the selector
 
-const person = {
+
+const user = {
     email: '',
     password: ''
 }
@@ -62,15 +63,15 @@ function setCookie(name, value, days) {
 
 function logIn(event) {
     // Postavljanje vrijednosti korisničkog imena i lozinke
-    person.email = document.getElementById('email').value;
-    person.password = document.getElementById('password').value;
+    user.email = document.getElementById('email').value;
+    user.password = document.getElementById('password').value;
 
-    console.log('Pokušaj prijave s emailom:', person.email, 'i lozinkom:', person.password);
+    console.log('Pokušaj prijave s emailom:', user.email, 'i lozinkom:', user.password);
 
     if (validateEmail() && validatePassword()) {
-        setCookie('credentials', btoa(person.email + ':' + person.password));
+        setCookie('credentials', btoa(user.email + ':' + user.password));
         alert('Log in successful');
-        console.log(person.email + person.password);
+        console.log(user.email + user.password);
         redirectToHome(); // Dodano preusmjeravanje na početnu stranicu
     } else {
         console.log('Pogreška pri prijavi. Provjerite podatke.');
@@ -78,9 +79,11 @@ function logIn(event) {
     }
 }
 
-LogInButton.addEventListener('click', function(event) {
+// Change LogInButton to loginButton in the following line
+loginButton.addEventListener('click', function(event) {
     event.preventDefault(); // Spriječava podnošenje obrasca (submit)
     validateEmail();
     validatePassword();
     logIn(event);
 });
+
