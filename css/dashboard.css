@@ -1,235 +1,60 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
 body {
-  background-color: whitesmoke;
-  display: flex;
-  flex-direction: row;
-}
-
-.container {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100%;
+  align-items: center;
+  min-height: 100vh;
+  background: #f5f5f5;
+  color: #333;
 }
 
 .navbar {
-  width: 100%;
-  padding: 1em 0;
-  display: flex;
-  justify-content: space-between;
-  top: 0;
-  border-bottom: 1px solid black;
-}
-
-.logo {
-  color: black;
-  text-decoration: none;
-  font-size: 24px;
-  margin-left: 20px;
-}
-
-.main-content {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  width: 100%;
-}
-
-.add-new-pto,
-.list-of-ptos {
-  min-width: 50%;
-  min-height: 100vh;
-  padding: 1rem;
-}
-
-.add-new-pto {
-  display: grid;
-  grid-template-rows: 0.5fr 0.4fr 0.3fr 0.1fr;
-  max-height: 100vh;
-}
-
-.choose-employee {
-  /* background-color: yellow; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* background-color: #eee; */
-}
-
-#employeeDropdown {
-  /* safari */
-  /* other styles for aesthetics */
-  margin-top: 10px;
-  width: 40%;
-  height: 30%;
-  font-size: 0.8em;
-  padding: auto;
-  text-align: center;
-  background-color: #fff;
-  border: 1px solid #caced1;
-  border-radius: 0.25rem;
-  color: #000;
-  cursor: pointer;
-}
-
-.note {
-  /* background-color: #00ca85; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0em 2em;
-}
-
-.note > input {
-  width: 50%;
-  height: 50%;
-  margin: 1em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.calendars {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  /* background-color: lightblue; */
-}
-
-.h4-date {
-	text-align: center;
-	margin-top: 3px;
-	margin-bottom: 7px;
-}
-
-.date-picker {
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-
-  cursor: pointer;
-  width: 95%;
-  margin: 1rem 0.5rem;
-  border: 1px solid black;
-  justify-self: center; /* Postavljeno na sredinu po vodoravnom smjeru */
-  align-self: self-start; /* Postavljeno na sredinu po okomitom smjeru */
-}
-
-.date-picker .selected-date {
-  width: 100%;
-  height: 15%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: #313131;
-  font-size: 16px;
-  border-bottom: 1px solid black;
-}
-
-.date-picker .dates {
-  /* position: absolute; */
-  width: 100%;
-  height: 100%;
-  /* top: 100%;
-	left: 0;
-	right: 0; */
-}
-
-.date-picker .dates .month {
-  /* background-color: greenyellow;  */
-  display: flex;
-  min-height: 40px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.date-picker .dates .month .arrows {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #313131;
-  font-size: 14px;
-}
-
-.date-picker .dates .month .arrows:hover {
-  background-color: #f3f3f3;
-}
-
-.date-picker .dates .month .arrows:active {
-  background-color: #00ca85;
-}
-
-.date-picker .dates .days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  height: 150px;
-}
-.date-picker .dates .days .day {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #313131;
-  font-size: 14px;
-}
-
-.date-picker .dates .days .day.selected {
-  background-color: #00ca85;
-}
-
-.days-of-week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  height: 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.day-of-week {
-  width: 42px;
-  /* background-color: wheat; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-}
-
-.button-submit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5%;
-}
-
-#addDataBtn {
-  height: 40px;
-  width: 150px;
   background-color: #3498db;
   color: #fff;
-  border: none;
-  border-radius: 5px;
+  text-align: start;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.container {
+
+  width: 100%;
+  max-width: 700px;
+  min-height: 200px;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
 }
 
-#addDataBtn:hover {
-  background-color: #2980b9;
-}
-
-.employeesDiv {
-  border-left: 1px solid black;
-  /* background-color: bisque; */
-}
-
-.employee-item {
-	background-color: #2980b9;
-	padding: 1em 2em;
+.card > a {
+  text-align: center;
+  color: #333;
 }

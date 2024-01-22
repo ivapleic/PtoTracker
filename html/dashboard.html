@@ -6,80 +6,18 @@
     <link rel="stylesheet" href="../css/dashboard.css" />
     <title>PTO Manager</title>
   </head>
-
-  <body>
-    <div class="container">
+    <body>
       <div class="navbar">
         <a href="#" class="logo">PTO Manager</a>
       </div>
-
-      <div class="main-content">
-        <div class="add-new-pto">
-            <div class="choose-employee">
-              <label for="employeeDropdown">Choose Employee:</label>
-              <select id="employeeDropdown"></select>
-          </div>
-           <div class="calendars">
-            <div class="date-picker" id="start-date-picker">
-              <h4 class="h4-date">Start Date</h4>
-              <div class="selected-date" id="selected-date-start"></div>
-              <div class="dates" id="dates-start">
-                <div class="month" id="month-start">
-                  <div class="arrows prev-mth" id="prev-mth-start">&lt;</div>
-                  <div class="mth" id="mth-start"></div>
-                  <div class="arrows next-mth" id="next-mth-start">&gt;</div>
-                </div>
-                <div class="days-of-week">
-                  <div class="day-of-week">M</div>
-                  <div class="day-of-week">T</div>
-                  <div class="day-of-week">W</div>
-                  <div class="day-of-week">T</div>
-                  <div class="day-of-week">F</div>
-                  <div class="day-of-week">S</div>
-                  <div class="day-of-week">S</div>
-                </div>
-                <div class="days" id="days-start"></div>
-              </div>
-            </div>
-
-            <div class="date-picker" id="end-date-picker">
-              <h4 class="h4-date">End Date</h4>
-              <div class="selected-date" id="selected-date-end"></div>
-              <div class="dates" id="dates-end">
-                <div class="month" id="month-end">
-                  <div class="arrows prev-mth" id="prev-mth-end">&lt;</div>
-                  <div class="mth" id="mth-end"></div>
-                  <div class="arrows next-mth" id="next-mth-end">&gt;</div>
-                </div>
-                <div class="days-of-week">
-                  <div class="day-of-week">M</div>
-                  <div class="day-of-week">T</div>
-                  <div class="day-of-week">W</div>
-                  <div class="day-of-week">T</div>
-                  <div class="day-of-week">F</div>
-                  <div class="day-of-week">S</div>
-                  <div class="day-of-week">S</div>
-                </div>
-                <div class="days" id="days-end"></div>
-              </div>
-            </div>
-          </div>
-          <div class="note">
-            <label for="note">Note:</label>
-            <input type="text" name="note" id="note" />
-          </div>
-          <div class="button-submit">
-            <button id="addDataBtn">Add PTO</button>
-          </div>
+  
+      <div class="container">
+        <div class="card">
+          <a href="add-new.pto.html">Add new PTO</a>
         </div>
+        <div class="card"><a href="employees.html">List of all PTO's</a></div>
+    </body>
 
-        <button id="viewEmployeesBtn">View Employees</button>
-        </div>
-      </div>
-    </div>
 
-    <script src="../js/display_users.js"></script>
-    <script src="../js/choose-dates.js"></script>
-    <script src="../js/add-ptos.js"></script>
   </body>
 </html>
