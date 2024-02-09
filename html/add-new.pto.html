@@ -7,10 +7,20 @@
     <title>Document</title>
 </head>
 <body>
+  <div class="navbar">
+    <a href="#" class="logo">PTO Manager</a>
+  </div>
     <div class="add-new-pto">
+      <h3 id="add-new-pto-heading">ADD NEW PTO</h3>
+      <div class="choose-user-note">
         <div class="choose-employee">
           <label for="employeeDropdown">Choose Employee:</label>
           <select id="employeeDropdown"></select>
+      </div>
+      <div class="note">
+        <label for="note">Note:</label>
+        <input type="text" name="note" id="note" />
+      </div>
       </div>
        <div class="calendars">
         <div class="date-picker" id="start-date-picker">
@@ -57,12 +67,13 @@
           </div>
         </div>
       </div>
-      <div class="note">
-        <label for="note">Note:</label>
-        <input type="text" name="note" id="note" />
-      </div>
       <div class="button-submit">
+
         <button id="addDataBtn">Add PTO</button>
       </div>
+
+      <script src="../js/display_users.js"></script>
+      <script src="../js/display-ptos.js"></script>
+      <script src="../js/choose-dates.js"></script>
 </body>
 </html>
