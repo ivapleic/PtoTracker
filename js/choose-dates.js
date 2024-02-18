@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function () {
+
 //selektori za kalendar za odabir početnog datuma
 const date_picker_start = document.getElementById('start-date-picker');
 const dates_el_start = document.getElementById('dates-start');
@@ -15,6 +17,10 @@ const next_mth_end = document.getElementById('next-mth-end');
 const prev_mth_end = document.getElementById('prev-mth-end');
 const days_el_end = document.getElementById('days-end');
 const selected_date_end_el = document.getElementById('selected-date-end');
+
+//ostali selektori
+const employeeDropdown = document.getElementById('employeeDropdown');
+const addDataBtn = document.getElementById('addDataBtn');
 
 //svaki kalendar ima svoj niz mjeseci
 const months_start = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -59,14 +65,25 @@ selected_date_end_el.dataset.value = endDate.date;
 populateDates(days_el_start, startDate);
 populateDates(days_el_end, endDate);
 
-
-
-
-
+// Popunjavanje padajućeg izbornika s zaposlenicima
+fetch('https://jsonplaceholder.typicode.com/users')
+.then(response => response.json())
+.then(data => {
+    // Popunjavanje dropdowna s imenima zaposlenika
+    data.forEach(employee => {
+        const option = document.createElement('option');
+        option.value = employee.id;
+        option.textContent = employee.name;
+        employeeDropdown.appendChild(option);
+    });
+})
+.catch(error => console.error('Error fetching employees:', error));
 
 //FUNKCIJA ZA PRIKAZ DANA U MJESECU 
 function populateDates(days_element, currentDate,selectedDateEl) {
     days_element.innerHTML = '';
+
+    const today = new Date();
 
     const amount_days = getDaysInMonth(currentDate.month, currentDate.year);
     const startingDay = getStartingDayOfMonth(currentDate.year, currentDate.month);
@@ -84,15 +101,13 @@ function populateDates(days_element, currentDate,selectedDateEl) {
         day_element.classList.add('day');
         day_element.textContent = i + 1;
 
-        // if (
-        //     currentDate.selectedDate &&
-        //     currentDate.selectedDate.date === i + 1 &&
-        //     currentDate.selectedDate.month === currentDate.month &&
-        //     currentDate.selectedDate.year === currentDate.year
-        // ) {
-        //     day_element.classList.toggle('selected');
-
-        // }
+        if (
+            currentDate.year === today.getFullYear() &&
+            currentDate.month === today.getMonth() &&
+            i + 1 === today.getDate()
+        ) {
+            day_element.classList.add('today');
+        }
 
         days_element.appendChild(day_element);
     }
@@ -102,15 +117,19 @@ function handleDateClick(event, currentDate, selectedDateEl, days_element) {
     const dayClicked = parseInt(event.target.textContent);
     const newDate = new Date(currentDate.year, currentDate.month, dayClicked);
 
+    //console.log('New Date:', newDate);  // Dodajte ovu liniju
+
     // Update the selected date for the specific calendar
     currentDate.selectedDate = newDate;
+
+    //console.log('Selected Date:', currentDate.selectedDate);  // Dodajte ovu liniju
 
     // Update the display of the selected date
     selectedDateEl.textContent = formatDate(currentDate.selectedDate);
     selectedDateEl.dataset.value = currentDate.selectedDate;
 
     // Remove 'selected' class from all days
-    const allDays = days_element.getElementsByClassName('day');
+    const allDays = days_element.querySelectorAll('.day');
     for (let day of allDays) {
         day.classList.remove('selected');
     }
@@ -118,6 +137,7 @@ function handleDateClick(event, currentDate, selectedDateEl, days_element) {
     // Add 'selected' class to the clicked day
     event.target.classList.add('selected');
 }
+
 
 //EVENT HANDLERI za startDate
 next_mth_start.addEventListener('click', function () {
@@ -146,9 +166,6 @@ days_el_start.addEventListener('click', function (event) {
 days_el_end.addEventListener('click', function (event) {
     handleDateClick(event, endDate, selected_date_end_el);
 });
-
-
-
 
 //FUNKCIJE ZA TRAZENJE MJESECI
 function goToNextMonth(mth_element, months_array, days_element, currentDate, selectedDateObj, selectedDateEl) {
@@ -195,9 +212,6 @@ function goToPrevMonth(mth_element, months_array, days_element, currentDate, sel
     selectedDateEl.dataset.value = selectedDateObj.date;
 }
 
-
-
-
 //neke funkcije
 
 function getStartingDayOfMonth(year, month) {
@@ -242,3 +256,4 @@ function formatDate(d) {
 
     return day + ' / ' + month + ' / ' + year;
 }
+});

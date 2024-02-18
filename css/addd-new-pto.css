@@ -34,6 +34,7 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 1.2rem;
   font-weight: bold;
+  margin: 0;
 }
 
 .add-new-pto {
@@ -41,23 +42,18 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 70%;
-  min-height: 80%;
-   padding: 1rem;
-  margin: 1rem;
+  max-height: 90%;
+  /* max-height: 400px; */
+   padding: 0.5rem;
+  margin-top: 1rem; 
 }
 
 .add-new-pto {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  max-height: 100vh;
-}
-
-.choose-user-note {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: center;
+  /* max-height: 100vh; */
 }
 
 .choose-employee {
@@ -73,7 +69,7 @@ body {
 #employeeDropdown {
   margin-top: 10px;
   width: 70%;
-  height: 30%;
+  height: 25%;
   font-size: 1em;
   padding: auto;
   text-align: center;
@@ -84,25 +80,9 @@ body {
   cursor: pointer;
 }
 
-.note {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0em 2em;
-  width: 50%;
-  height: 100%;
-}
-
-.note > input {
-  width: 60%;
-  height: 2em;
-  margin: 1em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
 .calendars {
-  max-height: 40%;
+  width: 100%;
+  max-height: 37%;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -184,8 +164,9 @@ body {
   font-size: 14px;
 }
 
-.date-picker .dates .days .day.selected {
-  background-color: #00ca85;
+
+.today {
+  background-color: lightgray;
 }
 
 .days-of-week {
@@ -235,249 +216,3 @@ body {
   background-color: #2980b9;
   padding: 1em 2em;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*body {
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column; 
-  align-items: center;
-  min-height: 100vh;
-  background: #f5f5f5;
-  color: #333;
-}
-
-.navbar {
-  background-color: #3498db;
-  color: #fff;
-  text-align: start;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  margin-left: 3rem;
-  margin-right: 3rem;
-  color: white;
-  font-family: "Poppins", sans-serif;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.add-new-pto {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 50%;
-  min-height: 100vh;
-  padding: 1rem;
-  margin: 1rem;
-}
-
-.add-new-pto {
-  display: grid;
-  grid-template-rows: 0.5fr 0.4fr 0.3fr 0.1fr;
-  max-height: 100vh;
-}
-
-.choose-employee {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#employeeDropdown {
-  margin-top: 10px;
-  width: 40%;
-  height: 25%;
-  font-size: 0.8em;
-  padding: auto;
-  text-align: center;
-  background-color: #fff;
-  border: 1px solid #caced1;
-  border-radius: 0.25rem;
-  color: #000;
-  cursor: pointer;
-}
-
-.note {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0em 2em;
-}
-
-.note > input {
-  width: 50%;
-  height: rem;
-  margin: 1em;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.calendars {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.h4-date {
-  text-align: center;
-  margin-top: 3px;
-  margin-bottom: 7px;
-}
-
-.date-picker {
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-
-  cursor: pointer;
-  width: 95%;
-  margin: 1rem 0.5rem;
-  border: 1px solid black;
-  justify-self: center;
-  align-self: self-start;
-}
-
-.date-picker .selected-date {
-  width: 100%;
-  height: 15%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: #313131;
-  font-size: 16px;
-  border-bottom: 1px solid black;
-}
-
-.date-picker .dates {
-  width: 100%;
-  height: 100%;
-}
-
-.date-picker .dates .month {
-  display: flex;
-  min-height: 40px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.date-picker .dates .month .arrows {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #313131;
-  font-size: 14px;
-}
-
-.date-picker .dates .month .arrows:hover {
-  background-color: #f3f3f3;
-}
-
-.date-picker .dates .month .arrows:active {
-  background-color: #00ca85;
-}
-
-.date-picker .dates .days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  height: 150px;
-}
-.date-picker .dates .days .day {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #313131;
-  font-size: 14px;
-}
-
-.date-picker .dates .days .day.selected {
-  background-color: #00ca85;
-}
-
-.days-of-week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  height: 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.day-of-week {
-  width: 42px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-}
-
-.button-submit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5%;
-}
-
-#addDataBtn {
-  height: 40px;
-  width: 150px;
-  background-color: #3498db;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-#addDataBtn:hover {
-  background-color: #2980b9;
-}
-
-.employeesDiv {
-  border-left: 1px solid black;
-}
-
-.employee-item {
-  background-color: #2980b9;
-  padding: 1em 2em;
-}
-*/

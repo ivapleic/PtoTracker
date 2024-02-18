@@ -47,7 +47,7 @@ function validatePassword() {
 }
 
 function redirectToHome() {
-    window.location.href = 'dashboard.html'; // Preusmjeri korisnika na početnu stranicu
+    window.location.href = 'add-new-pto.html'; // Preusmjeri korisnika na početnu stranicu
 }
 
 function setCookie(name, value, days) {
