@@ -42,16 +42,37 @@ h2 {
 
 .userId {display: none;}
 
-.ptoData {
-  /* background-color: forestgreen; */
-}
 
 .pto-container {
-  background-color: aquamarine;
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
-.past-ptos {
-  background-color: hotpink;
+.ptoData {
+  background-color: lightgray;
+  text-align: center;
+  border-radius: 5px;
+  margin: 2px 0;
+  padding: 5px  0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
+.delete-button {
+  width: 40%;
+}
+
+/* .past-ptos {
+  background-color: red;
+}
+
+.in-the-moment-ptos {
+  background-color: green;
+}
+
+.future-ptos {
+  background-color: blue;
+}  */

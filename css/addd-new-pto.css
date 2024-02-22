@@ -20,7 +20,7 @@ body {
   align-items: center;
 }
 
-.logo {
+a {
   margin-left: 3rem;
   margin-right: 3rem;
   color: white;
@@ -28,7 +28,13 @@ body {
   font-size: 1.2rem;
   font-weight: bold;
   text-decoration: none;
+  
 }
+
+.signout {
+  color: black;
+}
+
 
 #add-new-pto-heading {
   font-family: "Poppins", sans-serif;

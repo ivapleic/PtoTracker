@@ -159,13 +159,14 @@ prev_mth_end.addEventListener('click', function () {
 
 // Event listener za klik na dan u početnom kalendaru
 days_el_start.addEventListener('click', function (event) {
-    handleDateClick(event, startDate, selected_date_start_el);
+    handleDateClick(event, startDate, selected_date_start_el, days_el_start);
 });
 
 // Event listener za klik na dan u završnom kalendaru
 days_el_end.addEventListener('click', function (event) {
-    handleDateClick(event, endDate, selected_date_end_el);
+    handleDateClick(event, endDate, selected_date_end_el, days_el_end);
 });
+
 
 //FUNKCIJE ZA TRAZENJE MJESECI
 function goToNextMonth(mth_element, months_array, days_element, currentDate, selectedDateObj, selectedDateEl) {
