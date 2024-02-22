@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const employeeDropdown = document.getElementById('employeeDropdown');
-    const startDateInput = document.getElementById('selected-date-start');
-    const endDateInput = document.getElementById('selected-date-end');
+    const startDateInput = document.getElementById('hidden-start-date');
+    const endDateInput = document.getElementById('hidden-end-date'); 
     const employeesDiv = document.getElementById('employeesDiv');
 
     let employees = getEmployeesFromLocalStorage();
@@ -20,21 +20,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     addDataBtn.addEventListener('click', function () {
         const employeeId = employeeDropdown.value;
-        const startDate = startDateInput.innerText;
-        const endDate = endDateInput.innerText;
-
-        console.log(startDate);
-        console.log(endDate);
+        const startDate = new Date(startDateInput.value);
+        const endDate = new Date(endDateInput.value);
 
         if (endDate < startDate) {
-            alert('Invalid date range. End date must be greater than or equal to start date.');
+            alert('End date must be greater than or equal to start date!');
             return;
         }
 
         const selectedEmployee = employees.find(employee => employee.id === parseInt(employeeId));
 
         if (selectedEmployee) {
-            // Check if the employee has existing PTO history
             if (!selectedEmployee.ptoHistory) {
                 selectedEmployee.ptoHistory = {
                     pastPtos: [],
@@ -42,22 +38,27 @@ document.addEventListener('DOMContentLoaded', async function () {
                     futurePtos: []
                 };
             }
-
+            
+            const today = new Date();
             const ptoEntry = {
                 id: generateUniqueId(),
                 startDate: startDate,
                 endDate: endDate
             };
 
-            const today = formatDate(new Date());
+            // Uzmite samo godine, mjesece i dane iz datuma
+            const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            const startDateTime = new Date(ptoEntry.startDate.getFullYear(), ptoEntry.startDate.getMonth(), ptoEntry.startDate.getDate());
+            const endDateTime = new Date(ptoEntry.endDate.getFullYear(), ptoEntry.endDate.getMonth(), ptoEntry.endDate.getDate());
 
-            if (ptoEntry.endDate < today) {
+            if (endDateTime < todayDate) {
                 selectedEmployee.ptoHistory.pastPtos = selectedEmployee.ptoHistory.pastPtos || [];
                 selectedEmployee.ptoHistory.pastPtos.push(ptoEntry);
-            } else if (ptoEntry.startDate <= today && ptoEntry.endDate >= today) {
+                alert('in the past');
+            } else if (startDateTime <= todayDate && endDateTime >= todayDate) {
                 selectedEmployee.ptoHistory.inTheMomentPtos = selectedEmployee.ptoHistory.inTheMomentPtos || [];
                 selectedEmployee.ptoHistory.inTheMomentPtos.push(ptoEntry);
-            } else if (ptoEntry.startDate > today) {
+            } else if (startDateTime > todayDate) {
                 console.log('pushed to the future array');
                 selectedEmployee.ptoHistory.futurePtos = selectedEmployee.ptoHistory.futurePtos || [];
                 selectedEmployee.ptoHistory.futurePtos.push(ptoEntry);
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             saveEmployeesToLocalStorage(employees);
             updateEmployeePto(selectedEmployee);
             displayEmployees(employees);
-            alert(`Successfully added new Pto for ${selectedEmployee.name}`);
+            alert(`Successfully added new PTO for ${selectedEmployee.name}`);
         } else {
             console.error('Employee not found');
         }
@@ -169,10 +170,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const ptoContainer = document.createElement('div');
         ptoContainer.classList.add('pto-container');
-        // const headingPto = document.createElement('p');
-        // headingPto.classList.add('list-of-ptos-heading');
-        // headingPto.innerText = 'LIST OF PTOS';
-        // ptoContainer.appendChild(headingPto);
 
         employeeDiv.appendChild(userId);
         employeeDiv.appendChild(name);
@@ -256,8 +253,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         const selectedEndDate = pto.endDate;
 
         const dateRange = document.createElement('p');
-        dateRange.innerText = `${selectedStartDate} - ${selectedEndDate}`;
-        ptoData.appendChild(dateRange);
+        dateRange.innerText = `${formatDate(selectedStartDate)} - ${formatDate(selectedEndDate)}`;
+        ptoData.appendChild(dateRange);        
 
         // Dodajte gumb za brisanje
         const deleteButton = document.createElement('button');
@@ -323,21 +320,10 @@ document.addEventListener('DOMContentLoaded', async function () {
 }
 
 
-    function formatDate(d) {
-        let day = d.getDate();
-        if (day < 10) {
-            day = '0' + day;
-        }
-
-        let month = d.getMonth() + 1;
-        if (month < 10) {
-            month = '0' + month;
-        }
-
-        let year = d.getFullYear();
-
-        return day + ' / ' + month + ' / ' + year;
-    }
+function formatDate(date) {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(date).toLocaleDateString(undefined, options);
+}
 
 
     function generateUniqueId() {

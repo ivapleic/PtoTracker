@@ -2,7 +2,7 @@ body {
   font-family: "Poppins", sans-serif;
   margin: 0;
   display: flex;
-  flex-direction: column; /* Postavljanje na flex smjer kolone */
+  flex-direction: column;
   align-items: center;
   min-height: 100vh;
   background: #f5f5f5;
@@ -28,13 +28,11 @@ a {
   font-size: 1.2rem;
   font-weight: bold;
   text-decoration: none;
-  
 }
 
 .signout {
   color: black;
 }
-
 
 #add-new-pto-heading {
   font-family: "Poppins", sans-serif;
@@ -43,23 +41,18 @@ a {
   margin: 0;
 }
 
-.add-new-pto {
+form {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 70%;
   max-height: 90%;
-  /* max-height: 400px; */
-   padding: 0.5rem;
-  margin-top: 1rem; 
-}
-
-.add-new-pto {
+  padding: 1rem;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* max-height: 100vh; */
 }
 
 .choose-employee {
@@ -162,6 +155,7 @@ a {
   grid-template-columns: repeat(7, 1fr);
   height: 150px;
 }
+
 .date-picker .dates .days .day {
   display: flex;
   justify-content: center;
@@ -170,9 +164,14 @@ a {
   font-size: 14px;
 }
 
-
 .today {
   background-color: lightgray;
+  border-radius: 3px;
+}
+
+.selected {
+  background-color: lightgreen;
+  border-radius: 3px;
 }
 
 .days-of-week {
