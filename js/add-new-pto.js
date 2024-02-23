@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', async function () {
     const employeeDropdown = document.getElementById('employeeDropdown');
     const startDateInput = document.getElementById('hidden-start-date');
-    const endDateInput = document.getElementById('hidden-end-date'); 
+    const endDateInput = document.getElementById('hidden-end-date');
     const employeesDiv = document.getElementById('employeesDiv');
 
     let employees = getEmployeesFromLocalStorage();
+    console.log('Employees from localStorage:', employees);
 
     if (!employees || employees.length === 0) {
         employees = await fetchEmployees();
         saveEmployeesToLocalStorage(employees);
+        console.log('Employees fetched and saved to localStorage:', employees);
     }
-
-    console.log(employees);
 
     displayEmployees(employees);
     populateEmployeeDropdown(employees);
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     futurePtos: []
                 };
             }
-            
+
             const today = new Date();
             const ptoEntry = {
                 id: generateUniqueId(),
@@ -121,7 +121,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function saveEmployeesToLocalStorage(employees) {
         localStorage.setItem('employees', JSON.stringify(employees));
+        console.log('Employees saved to localStorage:', employees);
     }
+
 
     function getEmployeesFromLocalStorage() {
         const storedEmployees = localStorage.getItem('employees');
@@ -158,6 +160,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     function createEmployeeDiv(employee) {
         const employeeDiv = document.createElement('div');
         employeeDiv.classList.add('employee-item', `employee-${employee.id}`);
+        employeeDiv.dataset.id = employee.id; // Add this line
 
         const userId = createParagraph('userId', `${employee.id}`);
         const name = createParagraph('name', `${employee.name}`);
@@ -246,27 +249,73 @@ document.addEventListener('DOMContentLoaded', async function () {
     function createPtoDiv(pto) {
         const ptoData = document.createElement('div');
         ptoData.classList.add('ptoData');
-        ptoData.dataset.id = pto.id;
-
+        ptoData.dataset.id = `pto-${pto.id}`;
+    
         // Access startDate and endDate properties correctly
-        const selectedStartDate = pto.startDate;
-        const selectedEndDate = pto.endDate;
-
+        const selectedStartDate = pto.startDate instanceof Date ? pto.startDate : new Date(pto.startDate);
+        const selectedEndDate = pto.endDate instanceof Date ? pto.endDate : new Date(pto.endDate);
+    
         const dateRange = document.createElement('p');
+        dateRange.classList.add('date-range');
         dateRange.innerText = `${formatDate(selectedStartDate)} - ${formatDate(selectedEndDate)}`;
-        ptoData.appendChild(dateRange);        
-
-        // Dodajte gumb za brisanje
+        ptoData.appendChild(dateRange);
+    
+        // Determine the current season and set background image
+        const season = getSeason(selectedStartDate);
+        ptoData.style.backgroundImage = `url(${getSeasonImage(season)})`;
+    
+        // Add delete button
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('delete-button');
         deleteButton.innerText = 'Delete PTO';
         deleteButton.dataset.ptoId = pto.id;
         deleteButton.addEventListener('click', deletePto);
         ptoData.appendChild(deleteButton);
-
-
+    
         return ptoData;
     }
+    
+    function getSeason(date) {
+        const month = date.getMonth() + 1; // January is 0
+        switch (month) {
+            case 12:
+            case 1:
+            case 2:
+                return 'winter';
+            case 3:
+            case 4:
+            case 5:
+                return 'spring';
+            case 6:
+            case 7:
+            case 8:
+                return 'summer';
+            case 9:
+            case 10:
+            case 11:
+                return 'autumn';
+            default:
+                return 'unknown';
+        }
+    }
+    
+    function getSeasonImage(season) {
+        // Provide the correct relative or absolute paths to your season-specific images
+        switch (season) {
+            case 'winter':
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9fSM8-06ijcG03u5jQKLlGQehS12M87gBo9ez6Qtu7A&s';  // Corrected path
+            case 'spring':
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgC6gK8zJrYITDG21bNfD-fedEMl5-4MCdRNaM3Ulitw&s';
+            case 'summer':
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoeTr-DELdfTZSBl8Oh7tforzVNi3dFOxoojFMdfbp5A&s';  // Corrected path
+            case 'autumn':
+                return 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_1280.jpg';
+            default:
+                return '';
+        }
+    }
+    
+    
 
 
     function createSectionDiv(sectionTitle, sectionClass) {
@@ -286,44 +335,95 @@ document.addEventListener('DOMContentLoaded', async function () {
     
         if (confirmed) {
             const deleteButton = event.currentTarget;
-            const ptoId = deleteButton.dataset.ptoId;
-            const employeeId = extractEmployeeId(ptoId);
+            const ptoData = deleteButton.parentElement;
+            const employeeDiv = findAncestor(ptoData, 'employee-item');
     
-            const currentEmployee = employees.find(employee => employee.id === employeeId);
+            // Dohvat ID-a PTO-a iz dataset-a
+            const ptoId = ptoData.dataset.id;
     
-            // Funkcija za pronalaženje indeksa u bilo kojem nizu i brisanje elementa
-            const findIndexAndRemove = (array, id) => {
-                const index = array.findIndex(entry => entry.id === id);
-                if (index !== -1) {
-                    array.splice(index, 1);
+            // Dohvat ID-a zaposlenika iz dataset-a employeeDiv-a
+            const employeeId = employeeDiv ? parseInt(employeeDiv.dataset.id) : null;
+    
+            console.log('PTO ID:', ptoId);
+            console.log('Employee ID:', employeeId);
+    
+            if (employeeId !== null) {
+                // Call the new function to delete the PTO entry from localStorage
+                const updatedEmployees = deletePtoFromLocalStorage(employeeId, ptoId);
+    
+                if (updatedEmployees !== null) {
+                    // Refresh the page or re-render the employees after deleting PTO
+                    displayEmployees(updatedEmployees);
+    
+                    console.log('PTO deleted successfully');
+                } else {
+                    console.error('Employee not found or missing ptoHistory');
                 }
-            };
-    
-            // Obriši PTO iz odgovarajućeg niza
-            findIndexAndRemove(currentEmployee.ptoHistory.pastPtos, ptoId);
-            findIndexAndRemove(currentEmployee.ptoHistory.inTheMomentPtos, ptoId);
-            findIndexAndRemove(currentEmployee.ptoHistory.futurePtos, ptoId);
-    
-            // Ukloni PTO div iz DOM-a
-            deleteButton.parentElement.remove();
-    
-            // Ažuriraj localStorage i prikaži promjene na ekranu
-            saveEmployeesToLocalStorage(employees);
-            updateEmployeePto(currentEmployee);
-            displayEmployees(employees);
+            } else {
+                console.error('Employee ID not found');
+            }
         }
     }
+ 
+    function findIndexAndRemove(array, id) {
+        if (Array.isArray(array)) {
+            return array.filter(entry => entry.id !== id);
+        }
+        return array;
+    }
+    
+    function deletePtoFromLocalStorage(employeeId, ptoId) {
+        // Remove the specific PTO entry from localStorage
+        const storedEmployees = getEmployeesFromLocalStorage();
+        if (storedEmployees) {
+            console.log('Deleting PTO from localStorage:', storedEmployees);
+    
+            const updatedEmployees = storedEmployees.map(employee => {
+                if (employee.id === employeeId && employee.ptoHistory) {
+                    const updatedPtoHistory = {
+                        pastPtos: findIndexAndRemove(employee.ptoHistory.pastPtos, ptoId),
+                        inTheMomentPtos: findIndexAndRemove(employee.ptoHistory.inTheMomentPtos, ptoId),
+                        futurePtos: findIndexAndRemove(employee.ptoHistory.futurePtos, ptoId),
+                    };
+    
+                    // Create a new employee object with updated ptoHistory
+                    return { ...employee, ptoHistory: updatedPtoHistory };
+                }
+                return employee;
+            });
+    
+            console.log('Employees after deleting PTO:', updatedEmployees);
+    
+            // Save the updated data back to localStorage
+            saveEmployeesToLocalStorage(updatedEmployees);
+    
+            return updatedEmployees;
+        }
+        return null;
+    }
+    
+    
+    
+    
+    
+    
+    
 
-    function extractEmployeeId(ptoDataId) {
-    // Pridružite ID zaposlenika nakon crte kao broj
-    return parseInt(ptoDataId.split('-')[1]);
-}
+    function findAncestor(element, className) {
+        while ((element = element.parentElement) && !element.classList.contains(className));
+        return element;
+    }
 
 
-function formatDate(date) {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return new Date(date).toLocaleDateString(undefined, options);
-}
+
+
+
+
+
+    function formatDate(date) {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date(date).toLocaleDateString(undefined, options);
+    }
 
 
     function generateUniqueId() {
