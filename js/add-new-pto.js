@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 endDate: endDate
             };
 
-            // Uzmite samo godine, mjesece i dane iz datuma
             const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const startDateTime = new Date(ptoEntry.startDate.getFullYear(), ptoEntry.startDate.getMonth(), ptoEntry.startDate.getDate());
             const endDateTime = new Date(ptoEntry.endDate.getFullYear(), ptoEntry.endDate.getMonth(), ptoEntry.endDate.getDate());
@@ -54,12 +53,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (endDateTime < todayDate) {
                 selectedEmployee.ptoHistory.pastPtos = selectedEmployee.ptoHistory.pastPtos || [];
                 selectedEmployee.ptoHistory.pastPtos.push(ptoEntry);
-                alert('in the past');
             } else if (startDateTime <= todayDate && endDateTime >= todayDate) {
                 selectedEmployee.ptoHistory.inTheMomentPtos = selectedEmployee.ptoHistory.inTheMomentPtos || [];
                 selectedEmployee.ptoHistory.inTheMomentPtos.push(ptoEntry);
             } else if (startDateTime > todayDate) {
-                console.log('pushed to the future array');
                 selectedEmployee.ptoHistory.futurePtos = selectedEmployee.ptoHistory.futurePtos || [];
                 selectedEmployee.ptoHistory.futurePtos.push(ptoEntry);
             }
@@ -83,13 +80,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (ptoContainer) {
                 ptoContainer.innerHTML = '';
 
-                // Prikazi PTO za prošle ptos
                 displayPtoSection(employee.ptoHistory.pastPtos, 'Past PTOS', ptoContainer);
 
-                // Prikazi PTO za trenutne ptos
                 displayPtoSection(employee.ptoHistory.inTheMomentPtos, 'In the moment PTOS', ptoContainer);
 
-                // Prikazi PTO za buduće ptos
                 displayPtoSection(employee.ptoHistory.futurePtos, 'Future PTOS', ptoContainer);
             } else {
                 console.error('PTO container not found within employee div');
@@ -103,8 +97,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     function displayPtoSection(ptos, sectionTitle, container) {
         if (ptos && ptos.length > 0) {
             const sectionContainer = document.createElement('div');
-            // sectionContainer.classList.add('pto-section', sectionTitle.toLowerCase().replace(' ', '-'));
-
+        
             ptos.forEach(pto => {
                 const ptoDiv = createPtoDiv(pto);
                 sectionContainer.appendChild(ptoDiv);
@@ -160,7 +153,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     function createEmployeeDiv(employee) {
         const employeeDiv = document.createElement('div');
         employeeDiv.classList.add('employee-item', `employee-${employee.id}`);
-        employeeDiv.dataset.id = employee.id; // Add this line
+        employeeDiv.dataset.id = employee.id; 
 
         const userId = createParagraph('userId', `${employee.id}`);
         const name = createParagraph('name', `${employee.name}`);
@@ -189,7 +182,6 @@ document.addEventListener('DOMContentLoaded', async function () {
             let inTheMomentContainer = ptoContainer.querySelector('.in-the-moment-ptos');
             let futurePtoContainer = ptoContainer.querySelector('.future-ptos');
 
-            // Past PTOs
             if (employee.ptoHistory.pastPtos && employee.ptoHistory.pastPtos.length > 0) {
                 if (!pastPtoContainer) {
                     pastPtoContainer = createSectionDiv('PAST PTOS', 'past-ptos');
@@ -201,7 +193,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 });
             }
 
-            // In the Moment PTOs
             if (employee.ptoHistory.inTheMomentPtos && employee.ptoHistory.inTheMomentPtos.length > 0) {
                 if (!inTheMomentContainer) {
                     inTheMomentContainer = createSectionDiv('IN THE MOMENT PTOS', 'in-the-moment-ptos');
@@ -213,7 +204,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 });
             }
 
-            // Future PTOs
             if (employee.ptoHistory.futurePtos && employee.ptoHistory.futurePtos.length > 0) {
                 if (!futurePtoContainer) {
                     futurePtoContainer = createSectionDiv('FUTURE PTOS', 'future-ptos');
@@ -251,7 +241,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         ptoData.classList.add('ptoData');
         ptoData.dataset.id = `pto-${pto.id}`;
     
-        // Access startDate and endDate properties correctly
         const selectedStartDate = pto.startDate instanceof Date ? pto.startDate : new Date(pto.startDate);
         const selectedEndDate = pto.endDate instanceof Date ? pto.endDate : new Date(pto.endDate);
     
@@ -260,11 +249,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         dateRange.innerText = `${formatDate(selectedStartDate)} - ${formatDate(selectedEndDate)}`;
         ptoData.appendChild(dateRange);
     
-        // Determine the current season and set background image
         const season = getSeason(selectedStartDate);
         ptoData.style.backgroundImage = `url(${getSeasonImage(season)})`;
     
-        // Add delete button
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('delete-button');
         deleteButton.innerText = 'Delete PTO';
@@ -276,7 +263,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     
     function getSeason(date) {
-        const month = date.getMonth() + 1; // January is 0
+        const month = date.getMonth() + 1; 
         switch (month) {
             case 12:
             case 1:
@@ -300,16 +287,15 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
     
     function getSeasonImage(season) {
-        // Provide the correct relative or absolute paths to your season-specific images
         switch (season) {
             case 'winter':
-                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9fSM8-06ijcG03u5jQKLlGQehS12M87gBo9ez6Qtu7A&s';  // Corrected path
+                return '../images/winter.jpg';  
             case 'spring':
-                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgC6gK8zJrYITDG21bNfD-fedEMl5-4MCdRNaM3Ulitw&s';
+                return 'https://www.mlive.com/resizer/4nGy2tGJi5r3bTW4XOVJocpspBs=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/ABBNSXTHMJFUXE4CM63H5FOW7A.jpg';
             case 'summer':
-                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoeTr-DELdfTZSBl8Oh7tforzVNi3dFOxoojFMdfbp5A&s';  // Corrected path
+                return '../images/summer-picture.jpg'; 
             case 'autumn':
-                return 'https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_1280.jpg';
+                return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTD1p-EHvbrJlgAj9tnmXoncXa9s9r6UDxoimQnHAs12Q&s';
             default:
                 return '';
         }
@@ -401,13 +387,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
         return null;
     }
-    
-    
-    
-    
-    
-    
-    
 
     function findAncestor(element, className) {
         while ((element = element.parentElement) && !element.classList.contains(className));

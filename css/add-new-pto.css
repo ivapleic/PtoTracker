@@ -6,13 +6,11 @@ body {
   align-items: center;
   min-height: 100vh;
   background: #f5f5f5;
-  color: #333;
 }
 
 .navbar {
+  margin: 0;
   background-color: #3498db;
-  color: #fff;
-  text-align: start;
   width: 100%;
   height: 60px;
   display: flex;
@@ -36,19 +34,20 @@ a {
 
 #add-new-pto-heading {
   font-family: "Poppins", sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
+  color: #3498db;
   margin: 0;
 }
 
-form {
+#ptoForm {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   min-width: 70%;
   max-height: 90%;
   padding: 1rem;
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,7 +71,6 @@ form {
   font-size: 1em;
   padding: auto;
   text-align: center;
-  background-color: #fff;
   border: 1px solid #caced1;
   border-radius: 0.25rem;
   color: #000;
@@ -103,7 +101,6 @@ form {
   margin: 1rem 0.5rem;
   border: 1px solid black;
   justify-self: center;
-  align-self: self-start;
 }
 
 .date-picker .selected-date {
@@ -154,6 +151,7 @@ form {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   height: 150px;
+  width: 100%;
 }
 
 .date-picker .dates .days .day {
@@ -161,7 +159,9 @@ form {
   justify-content: center;
   align-items: center;
   color: #313131;
-  font-size: 14px;
+  font-size: 1rem;
+  /* max-height: 100%; */
+  box-sizing: border-box;
 }
 
 .today {
@@ -170,7 +170,7 @@ form {
 }
 
 .selected {
-  background-color: lightgreen;
+  background-color: #3498db;
   border-radius: 3px;
 }
 
@@ -220,4 +220,62 @@ form {
 .employee-item {
   background-color: #2980b9;
   padding: 1em 2em;
+}
+
+.navbar {
+  background-color: #3498db;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media only screen and (max-width: 950px) {
+
+  body {
+    margin:0;
+    padding: 0;
+  }
+  .navbar {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  a {
+    margin: 1rem 0;
+  }
+
+  #ptoForm {
+    min-width: 80%;
+  }
+
+  .choose-employee {
+    width: 80%;
+  }
+
+  #employeeDropdown {
+    width: 90%;
+  }
+
+  .calendars {
+    grid-template-columns: 1fr;
+  }
+
+  .date-picker {
+    width: 90%;
+  }
+
+  .employeesDiv {
+    flex-direction: column;
+  }
+
+  .employee-item {
+    width: 90%;
+  }
 }

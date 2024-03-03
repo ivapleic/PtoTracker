@@ -44,26 +44,23 @@ h2 {
   display: none;
 }
 
-
 .pto-container {
   display: flex;
   flex-direction: column;
   text-align: center;
 }
 
-.ptoData {  /* Set your desired width */
-  height: 125px;  /* Set your desired height */
+.ptoData {
+  height: 125px;
   background-size: cover;
-  /* Add other styling properties as needed */
 }
-
 
 .ptoData {
   background-color: lightgray;
   text-align: center;
   border-radius: 5px;
   margin: 5px 0;
-  padding: 5px  0;
+  padding: 5px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -75,19 +72,22 @@ h2 {
 }
 
 .date-range {
-  background-color:  white;
+  background-color: white;
   padding: 5px 10px;
   border-radius: 4px;
 }
 
-/* .past-ptos {
-  background-color: red;
+.delete-button {
+  background-color: #e7f3fb;
+  padding: 0.3rem;
+  color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s ease;
 }
 
-.in-the-moment-ptos {
-  background-color: green;
+.delete-button:hover {
+  background-color: #cad5dc;
 }
-
-.future-ptos {
-  background-color: blue;
-}  */
