@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         console.log('Employees saved to localStorage:', employees);
     }
 
-
     function getEmployeesFromLocalStorage() {
         const storedEmployees = localStorage.getItem('employees');
         return storedEmployees ? JSON.parse(storedEmployees) : null;
@@ -155,25 +154,19 @@ document.addEventListener('DOMContentLoaded', async function () {
         employeeDiv.classList.add('employee-item', `employee-${employee.id}`);
         employeeDiv.dataset.id = employee.id; 
 
-        const userId = createParagraph('userId', `${employee.id}`);
         const name = createParagraph('name', `${employee.name}`);
-        const username = createParagraph('username', `Username: ${employee.username}`);
         const email = createParagraph('email', `Email: ${employee.email}`);
         const address = createParagraph('address', `Address: ${employee.address.street}, ${employee.address.suite}, ${employee.address.city}, ${employee.address.zipcode}`);
         const phone = createParagraph('phone', `Phone: ${employee.phone}`);
-        const website = createParagraph('website', `Website: ${employee.website}`);
         const company = createParagraph('company', `Company: ${employee.company.name}`);
 
         const ptoContainer = document.createElement('div');
         ptoContainer.classList.add('pto-container');
 
-        employeeDiv.appendChild(userId);
         employeeDiv.appendChild(name);
-        employeeDiv.appendChild(username);
         employeeDiv.appendChild(email);
         employeeDiv.appendChild(address);
         employeeDiv.appendChild(phone);
-        employeeDiv.appendChild(website);
         employeeDiv.appendChild(company);
         employeeDiv.appendChild(ptoContainer);
 
@@ -218,7 +211,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         return employeeDiv;
     }
-
 
     function populateEmployeeDropdown(employees) {
         employees.forEach(employee => {
@@ -316,83 +308,76 @@ document.addEventListener('DOMContentLoaded', async function () {
         return sectionDiv;
     }
 
-    function deletePto(event) {
-        const confirmed = confirm('Are you sure you want to delete this PTO entry?');
-    
-        if (confirmed) {
+  //BRISANJE GODISNJEG - IZBRISE IZ DOMA ALI NE IZ LOCAL STORAGEA TJ. IZ NIZA EMPLOYEES
+  async function deletePto(event) {
+    const confirmed = confirm('Are you sure you want to delete this PTO entry?');
+
+    if (confirmed) {
+        console.log('Deleting PTO');
+
+        try {
             const deleteButton = event.currentTarget;
             const ptoData = deleteButton.parentElement;
-            const employeeDiv = findAncestor(ptoData, 'employee-item');
-    
-            // Dohvat ID-a PTO-a iz dataset-a
+            const employeeDiv = findParentElement(ptoData, 'employee-item');
+
             const ptoId = ptoData.dataset.id;
-    
-            // Dohvat ID-a zaposlenika iz dataset-a employeeDiv-a
             const employeeId = employeeDiv ? parseInt(employeeDiv.dataset.id) : null;
-    
-            console.log('PTO ID:', ptoId);
-            console.log('Employee ID:', employeeId);
-    
+
             if (employeeId !== null) {
-                // Call the new function to delete the PTO entry from localStorage
-                const updatedEmployees = deletePtoFromLocalStorage(employeeId, ptoId);
-    
-                if (updatedEmployees !== null) {
-                    // Refresh the page or re-render the employees after deleting PTO
-                    displayEmployees(updatedEmployees);
-    
-                    console.log('PTO deleted successfully');
+                const employeeIndex = employees.findIndex(emp => emp.id === employeeId);
+
+                if (employeeIndex !== -1) {
+                    ['pastPtos', 'inTheMomentPtos', 'futurePtos'].forEach(ptoCategory => {
+                        employees[employeeIndex].ptoHistory[ptoCategory] = removePtoEntry(
+                            employees[employeeIndex].ptoHistory[ptoCategory],
+                            ptoId
+                        );
+                    });
+
+                    saveEmployeesToLocalStorage(employees);
+
+                    ptoData.remove();
+                    deletePtoFromLocalStorage(employeeId, ptoId);
+
+                    alert('PTO deleted successfully');
                 } else {
-                    console.error('Employee not found or missing ptoHistory');
+                    console.error('Employee not found in the array');
                 }
             } else {
                 console.error('Employee ID not found');
             }
+        } catch (error) {
+            console.error('Error deleting PTO:', error);
         }
     }
- 
-    function findIndexAndRemove(array, id) {
-        if (Array.isArray(array)) {
-            return array.filter(entry => entry.id !== id);
-        }
-        return array;
-    }
-    
-    function deletePtoFromLocalStorage(employeeId, ptoId) {
-        // Remove the specific PTO entry from localStorage
-        const storedEmployees = getEmployeesFromLocalStorage();
-        if (storedEmployees) {
-            console.log('Deleting PTO from localStorage:', storedEmployees);
-    
-            const updatedEmployees = storedEmployees.map(employee => {
-                if (employee.id === employeeId && employee.ptoHistory) {
-                    const updatedPtoHistory = {
-                        pastPtos: findIndexAndRemove(employee.ptoHistory.pastPtos, ptoId),
-                        inTheMomentPtos: findIndexAndRemove(employee.ptoHistory.inTheMomentPtos, ptoId),
-                        futurePtos: findIndexAndRemove(employee.ptoHistory.futurePtos, ptoId),
-                    };
-    
-                    // Create a new employee object with updated ptoHistory
-                    return { ...employee, ptoHistory: updatedPtoHistory };
-                }
-                return employee;
-            });
-    
-            console.log('Employees after deleting PTO:', updatedEmployees);
-    
-            // Save the updated data back to localStorage
-            saveEmployeesToLocalStorage(updatedEmployees);
-    
-            return updatedEmployees;
-        }
-        return null;
-    }
+}
 
-    function findAncestor(element, className) {
-        while ((element = element.parentElement) && !element.classList.contains(className));
-        return element;
-    }
+function removePtoEntry(ptoArray, ptoId) {
+    console.log('Removing PTO with ID:', ptoId);
+    return ptoArray.filter(entry => entry.id !== ptoId);
+}
 
+async function deletePtoFromLocalStorage(employeeId, ptoId) {
+    try {
+        const key = `employee_${employeeId}_pto_${ptoId}`;
+
+        localStorage.removeItem(key);
+
+        console.log('Deleted PTO with key:', key);
+
+    } catch (error) {
+        console.error('Error deleting PTO from localStorage:', error);
+    }
+}
+
+
+
+
+
+function findParentElement(element, className) {
+    while ((element = element.parentElement) && !element.classList.contains(className));
+    return element;
+}
 
 
 

@@ -1,4 +1,4 @@
-const loginButton = document.getElementById('loginButton'); // Update the selector
+const loginButton = document.getElementById('loginButton'); 
 
 
 const user = {
@@ -10,44 +10,55 @@ const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 
 function validateEmail() {
-    const emailValue = emailInput.value.trim();
+    const emailValue = emailInput.value;
 
-    // Regex za provjeru valjanosti email adrese
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    /*
+       - ^            Početak retka
+       - [^\s@]+      korisničko ime prije znaka @
+       - @            Simbol @
+       - [^\s@]+      znakovi iza @ koji predstavljaju domenu (gmail,yahoo,fesb,..)
+       - \.           Točka (.)
+       - [^\s@]+      znakovi iza točke(npr com, org, hr)
+       - $            Kraj retka
+    */
+
     if (emailRegex.test(emailValue)) {
-        // Valjana email adresa
         console.log('Email adresa je valjana:', emailValue);
         return true;
     } else if (emailValue.length > 0) {
-        // Nevaljana email adresa samo ako je unesen neki tekst
-        alert('Format emaila neispravan');
+        alert('Format emaila nije ispravan');
         return false;
     } else {
-        // Prazno polje, ne prikazuj alert
         return false;
     }
+
+
 }
 
 function validatePassword() {
     const passwordValue = passwordInput.value;
 
-    // Regex za provjeru valjanosti lozinke (minimalno 8 znakova, barem jedno malo slovo, barem jedno veliko slovo, barem jedna brojka, barem jedan znak)
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+{};:'",.<>?\/\\[\]|]).{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+{};:'",.<>?/\\[\]|]).{8,}$/;
 
+    /*
+       - ^                  Početak retka
+       - (?=.*[a-z])        Jedno malo slovo
+       - (?=.*[A-Z])        Jedno veliko slovo
+       - (?=.*\d)           Jedan broj
+       - (?=.*[!@#$%^&*()-_=+{};:'",.<>?/\\[\]|])  Jedan znak
+       - .{8,}              Minimalno 8 znakova
+       - $                  Kraj retka
+    */
+    
     if (passwordRegex.test(passwordValue)) {
-        // Valjana lozinka
         console.log('Lozinka je valjana.');
         return true;
     } else {
-        // Nevaljana lozinka
-        alert('Lozinka mora imati minimalno 8 znakova, barem jedno malo slovo, barem jedno veliko slovo, barem jednu brojku i barem jedan znak.');
+        alert('Lozinka mora imati minimalno 8 znakova,jedno malo slovo,jedno veliko slovo,jednu brojku i jedan znak.');
         return false;
     }
-}
-
-function redirectToHome() {
-    window.location.href = 'add-new-pto.html'; // Preusmjeri korisnika na početnu stranicu
 }
 
 function setCookie(name, value, days) {
@@ -60,30 +71,24 @@ function setCookie(name, value, days) {
     document.cookie = name + '=' + value + expires + '; path=/';
 }
 
-
-function logIn(event) {
-    // Postavljanje vrijednosti korisničkog imena i lozinke
+function logIn() {
     user.email = document.getElementById('email').value;
     user.password = document.getElementById('password').value;
-
-    console.log('Pokušaj prijave s emailom:', user.email, 'i lozinkom:', user.password);
 
     if (validateEmail() && validatePassword()) {
         setCookie('credentials', btoa(user.email + ':' + user.password));
         alert('Log in successful');
         console.log(user.email + user.password);
-        redirectToHome(); // Dodano preusmjeravanje na početnu stranicu
+        window.location.href = 'dashboard.html';
     } else {
         console.log('Pogreška pri prijavi. Provjerite podatke.');
-        // Dodajte dodatne radnje ili poruke po potrebi
     }
 }
 
-// Change LogInButton to loginButton in the following line
-loginButton.addEventListener('click', function(event) {
-    event.preventDefault(); // Spriječava podnošenje obrasca (submit)
+loginButton.addEventListener('click', function (event) {
+    event.preventDefault();
     validateEmail();
     validatePassword();
-    logIn(event);
+    logIn();
 });
 
