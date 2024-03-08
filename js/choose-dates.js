@@ -54,28 +54,10 @@ mth_start.textContent = months_start[startCalendar.month] + ' ' + startCalendar.
 mth_end.textContent = months_end[endCalendar.month] + ' ' + endCalendar.year;
 
 selected_date_start_el.textContent = formatDate(startCalendar.date);
-// selected_date_start_el.dataset.value = startCalendar.date;
 selected_date_end_el.textContent = formatDate(endCalendar.date);
-// selected_date_end_el.dataset.value = endCalendar.date;
 
 populateDates(days_el_start, startCalendar);
 populateDates(days_el_end, endCalendar);
-
-function fetchAndPopulateDropdown(url, dropdownElement) {
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(employee => {
-                const option = document.createElement('option');
-                option.value = employee.id;
-                option.textContent = employee.name;
-                dropdownElement.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching employees:', error));
-}
-
-fetchAndPopulateDropdown('https://jsonplaceholder.typicode.com/users', employeeDropdown);
 
 function populateDates(days_element, currentDate) {
     days_element.innerHTML = '';
@@ -141,29 +123,21 @@ days_el_end.addEventListener('click', function (event) {
     handleDateClick(event, endCalendar, hiddenEndDateInput, selected_date_end_el, days_el_end);
 });
 
-
-
 function handleDateClick(event, currentDate, hiddenDateInput, selectedDateEl, days_element) {
     const dayClicked = parseInt(event.target.textContent);
-    const newDate = new Date(currentDate.year, currentDate.month, dayClicked);
+    const newDate = new Date(currentDate.year, currentDate.month, dayClicked+1);
 
-    // Ažuriranje odabranog datuma za specifični kalendar
     currentDate.selectedDate = newDate;
 
-    // Ažuriranje prikaza odabranog datuma
     selectedDateEl.textContent = formatDate(currentDate.selectedDate);
-    // selectedDateEl.dataset.value = currentDate.selectedDate;
 
-    // Postavljanje vrijednosti skrivenog inputa
     hiddenDateInput.value = currentDate.selectedDate.toISOString().split('T')[0];
 
-    // Uklanjanje 'selected' klase sa svih dana
     const allDays = days_element.querySelectorAll('.day');
     for (let day of allDays) {
         day.classList.remove('selected');
     }
 
-    // Dodavanje 'selected' klase kliknutom danu
     event.target.classList.add('selected');
 }
 
@@ -206,8 +180,6 @@ function goToPrevMonth(mth_element, months_array, days_element, currentDate, sel
     selectedDateEl.textContent = formatDate(selectedDateObj.date);
     selectedDateEl.dataset.value = selectedDateObj.date;
 }
-
-
 
 function getStartingDayOfMonth(year, month) {
     const firstDayOfMonth = new Date(year, month, 1);

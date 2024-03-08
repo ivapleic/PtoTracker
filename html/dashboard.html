@@ -12,7 +12,7 @@
       <a href="#" class="logo">PTO Manager</a>
       <a href="index.html" class="signout">Sign out</a>
     </div>
-    <form id="ptoForm">
+    <div class="add-new-pto">
       <h3 id="add-new-pto-heading">ADD NEW PTO</h3>
       <div class="choose-employee">
         <label for="employeeDropdown">Choose Employee:</label>
@@ -20,7 +20,7 @@
       </div>
       <div class="calendars">
         <div class="date-picker" id="start-date-picker">
-          <input type="date" id="hidden-start-date" style="display: none;"/>
+          <input type="date" id="hidden-start-date" style="display: none" />
           <h4 class="h4-date">Start Date</h4>
           <div class="selected-date" id="selected-date-start"></div>
           <div class="dates" id="dates-start">
@@ -36,7 +36,7 @@
         <div class="date-picker" id="end-date-picker">
           <h4 class="h4-date">End Date</h4>
           <div class="selected-date" id="selected-date-end"></div>
-          <input type="date" id="hidden-end-date" style="display: none;"/>
+          <input type="date" id="hidden-end-date" style="display: none" />
           <div class="dates" id="dates-end">
             <div class="month" id="month-end">
               <div class="arrows prev-mth" id="prev-mth-end">&lt;</div>
@@ -48,9 +48,9 @@
         </div>
       </div>
       <div class="button-submit">
-        <button type="submit" id="addDataBtn">Add PTO</button>
+        <button  id="addDataBtn">Add PTO</button>
       </div>
-    </form>
+    </div>
 
     <div class="main-content">
       <h2>List of Employees and their PTO's</h2>
