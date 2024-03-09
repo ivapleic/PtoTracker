@@ -1,4 +1,4 @@
-const loginButton = document.getElementById('loginButton'); 
+const loginButton = document.getElementById('loginButton');
 
 
 const user = {
@@ -25,16 +25,14 @@ function validateEmail() {
     */
 
     if (emailRegex.test(emailValue)) {
-        console.log('Email adresa je valjana:', emailValue);
+        console.log('Email address is valid:', emailValue);
         return true;
     } else if (emailValue.length > 0) {
-        alert('Format emaila nije ispravan');
+        alert('Email format is not valid');
         return false;
     } else {
         return false;
     }
-
-
 }
 
 function validatePassword() {
@@ -51,12 +49,12 @@ function validatePassword() {
        - .{8,}              Minimalno 8 znakova
        - $                  Kraj retka
     */
-    
+
     if (passwordRegex.test(passwordValue)) {
-        console.log('Lozinka je valjana.');
+        console.log('Password is valid.');
         return true;
     } else {
-        alert('Lozinka mora imati minimalno 8 znakova,jedno malo slovo,jedno veliko slovo,jednu brojku i jedan znak.');
+        alert('Password must have a minimum of 8 characters, one lowercase letter, one uppercase letter, one digit, and one special character.');
         return false;
     }
 }
@@ -81,7 +79,7 @@ function logIn() {
         console.log(user.email + user.password);
         window.location.href = 'dashboard.html';
     } else {
-        console.log('Pogreška pri prijavi. Provjerite podatke.');
+        console.log('Error logging in. Check the provided information.');
     }
 }
 

@@ -2,13 +2,25 @@ const employeeDropdown = document.getElementById('employeeDropdown');
 const startDateInput = document.getElementById('hidden-start-date');
 const endDateInput = document.getElementById('hidden-end-date');
 
-function formatDate(date) {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return new Date(date).toLocaleDateString(undefined, options);
+function formatDate(d) {
+    let day = d.getDate();
+    if (day < 10) {
+        day = '0' + day;
+    }
+
+    let month = d.getMonth() + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    let year = d.getFullYear();
+
+    return day + '.' + month + '.' + year;
 }
 
-function generateUniqueId() {
-    return new Date().getTime();
+function generateUniqueId(employeeId) {
+    console.log(employeeId);
+    return `employee_${employeeId}_pto_${new Date().getTime()}`;
 }
 
 function getSeason(date) {
@@ -54,30 +66,30 @@ function saveEmployeesToLocalStorage(employees) {
     let storedEmployees = getEmployeesFromLocalStorage();
 
     if (!storedEmployees || storedEmployees.length === 0) {
-        // If there are no existing employees, save the current employees directly
         localStorage.setItem('employees', JSON.stringify(employees));
     } else {
-        // If there are existing employees, update the relevant ones
         storedEmployees = storedEmployees.map((storedEmployee) => {
             const updatedEmployee = employees.find((newEmployee) => newEmployee.id === storedEmployee.id);
             return updatedEmployee || storedEmployee;
         });
 
-        // Save individual PTOs with unique keys
         storedEmployees.forEach((employee) => {
             employee.ptoHistory.pastPtos.forEach((pto) => {
-                const key = `employee_${employee.id}_pto_${pto.id}`;
+                const key = generateUniqueId(employee.id);
                 localStorage.setItem(key, JSON.stringify(pto));
+
             });
 
             employee.ptoHistory.inTheMomentPtos.forEach((pto) => {
-                const key = `employee_${employee.id}_pto_${pto.id}`;
+                const key = generateUniqueId(employee.id);
                 localStorage.setItem(key, JSON.stringify(pto));
+
             });
 
             employee.ptoHistory.futurePtos.forEach((pto) => {
-                const key = `employee_${employee.id}_pto_${pto.id}`;
+                const key = generateUniqueId(employee.id);
                 localStorage.setItem(key, JSON.stringify(pto));
+
             });
         });
 
@@ -126,58 +138,6 @@ function createParagraph(className, text) {
     paragraph.textContent = text;
     paragraph.classList.add(className);
     return paragraph;
-}
-
-function handleAddPtoClick(employees) {
-    const employeeId = employeeDropdown.value;
-    const startDate = new Date(startDateInput.value);
-    const endDate = new Date(endDateInput.value);
-
-    if (endDate < startDate) {
-        alert('End date must be greater than or equal to start date!');
-        return;
-    }
-
-    const selectedEmployee = employees.find(employee => employee.id === parseInt(employeeId));
-
-    if (selectedEmployee) {
-        if (!selectedEmployee.ptoHistory) {
-            selectedEmployee.ptoHistory = {
-                pastPtos: [],
-                inTheMomentPtos: [],
-                futurePtos: []
-            };
-        }
-
-        const today = new Date();
-        const ptoEntry = {
-            id: `${selectedEmployee}_pto_${generateUniqueId()}`,
-            startDate: startDate,
-            endDate: endDate
-        };
-
-        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const startDateTime = new Date(ptoEntry.startDate.getFullYear(), ptoEntry.startDate.getMonth(), ptoEntry.startDate.getDate());
-        const endDateTime = new Date(ptoEntry.endDate.getFullYear(), ptoEntry.endDate.getMonth(), ptoEntry.endDate.getDate());
-
-        if (endDateTime < todayDate) {
-            selectedEmployee.ptoHistory.pastPtos = selectedEmployee.ptoHistory.pastPtos || [];
-            selectedEmployee.ptoHistory.pastPtos.push(ptoEntry);
-        } else if (startDateTime <= todayDate && endDateTime >= todayDate) {
-            selectedEmployee.ptoHistory.inTheMomentPtos = selectedEmployee.ptoHistory.inTheMomentPtos || [];
-            selectedEmployee.ptoHistory.inTheMomentPtos.push(ptoEntry);
-        } else if (startDateTime > todayDate) {
-            selectedEmployee.ptoHistory.futurePtos = selectedEmployee.ptoHistory.futurePtos || [];
-            selectedEmployee.ptoHistory.futurePtos.push(ptoEntry);
-        }
-
-        saveEmployeesToLocalStorage(employees);
-        updateEmployeePto(selectedEmployee);
-        displayEmployees(employees);
-        alert(`Successfully added new PTO for ${selectedEmployee.name}`);
-    } else {
-        console.error('Employee not found');
-    }
 }
 
 function updateEmployeePto(employee) {
@@ -238,7 +198,7 @@ function createEmployeeDiv(employee) {
 
         if (employee.ptoHistory.pastPtos && employee.ptoHistory.pastPtos.length > 0) {
             if (!pastPtoContainer) {
-                pastPtoContainer = createSectionDiv('PAST PTOS', 'past-ptos');
+                pastPtoContainer = createSectionDiv("PAST PTO'S", 'past-ptos');
                 ptoContainer.appendChild(pastPtoContainer);
             }
             employee.ptoHistory.pastPtos.forEach(pto => {
@@ -249,7 +209,7 @@ function createEmployeeDiv(employee) {
 
         if (employee.ptoHistory.inTheMomentPtos && employee.ptoHistory.inTheMomentPtos.length > 0) {
             if (!inTheMomentContainer) {
-                inTheMomentContainer = createSectionDiv('IN THE MOMENT PTOS', 'in-the-moment-ptos');
+                inTheMomentContainer = createSectionDiv("IN THE MOMENT PTO'S", 'in-the-moment-ptos');
                 ptoContainer.appendChild(inTheMomentContainer);
             }
             employee.ptoHistory.inTheMomentPtos.forEach(pto => {
@@ -260,7 +220,7 @@ function createEmployeeDiv(employee) {
 
         if (employee.ptoHistory.futurePtos && employee.ptoHistory.futurePtos.length > 0) {
             if (!futurePtoContainer) {
-                futurePtoContainer = createSectionDiv('FUTURE PTOS', 'future-ptos');
+                futurePtoContainer = createSectionDiv("FUTURE PTO'S", 'future-ptos');
                 ptoContainer.appendChild(futurePtoContainer);
             }
             employee.ptoHistory.futurePtos.forEach(pto => {
@@ -271,6 +231,23 @@ function createEmployeeDiv(employee) {
     }
 
     return employeeDiv;
+}
+
+function displayPtoSection(ptos, sectionTitle, container) {
+    if (ptos && ptos.length > 0) {
+        const sectionContainer = document.createElement('div');
+
+        ptos.forEach(pto => {
+            const ptoDiv = createPtoDiv(pto);
+            sectionContainer.appendChild(ptoDiv);
+        });
+
+        const headingPto = document.createElement('p');
+        headingPto.innerText = sectionTitle;
+
+        container.appendChild(headingPto);
+        container.appendChild(sectionContainer);
+    }
 }
 
 function createPtoDiv(pto) {
@@ -293,7 +270,7 @@ function createPtoDiv(pto) {
     deleteButton.classList.add('delete-button');
     deleteButton.innerText = 'Delete PTO';
     deleteButton.dataset.ptoId = pto.id;
-    deleteButton.addEventListener('click',()=> deletePto());
+    deleteButton.addEventListener('click', (event) => deletePto(event));
     ptoData.appendChild(deleteButton);
 
     return ptoData;
@@ -317,8 +294,8 @@ async function deletePto(event) {
 
     if (confirmed) {
         const deleteButton = event.currentTarget;
-        const ptoData = deleteButton.parentElement; // Find the parent element containing PTO data
-        const employeeDiv = ptoData.closest('.employee-item'); // Find the employee container element
+        const ptoData = deleteButton.parentElement;
+        const employeeDiv = ptoData.closest('.employee-item');
 
         const ptoId = ptoData.dataset.id;
         const employeeId = employeeDiv ? parseInt(employeeDiv.dataset.id) : null;
@@ -333,20 +310,20 @@ async function deletePto(event) {
                     const currentPtoHistory = employees[employeeIndex].ptoHistory[ptoCategory];
 
                     if (currentPtoHistory) {
-                        // Find the index of the PTO entry based on its id
                         const ptoIndex = currentPtoHistory.findIndex(entry => entry.id === ptoId);
 
                         if (ptoIndex !== -1) {
                             employees[employeeIndex].ptoHistory[ptoCategory].splice(ptoIndex, 1);
+
+                            ptoData.remove();
+
+                            saveEmployeesToLocalStorage(employees);
+                            deletePtoFromLocalStorage(employeeId, ptoId);
+
+                            alert('PTO deleted successfully');
                         }
                     }
                 });
-
-                saveEmployeesToLocalStorage(employees);
-                ptoData.remove();
-                deletePtoFromLocalStorage(employeeId, ptoId);
-
-                alert('PTO deleted successfully');
             } else {
                 console.error('Employee not found in the array');
             }
@@ -358,23 +335,64 @@ async function deletePto(event) {
 
 async function deletePtoFromLocalStorage(employeeId, ptoId) {
     const key = `employee_${employeeId}_pto_${ptoId}`;
+    console.log(key);
     localStorage.removeItem(key);
 }
 
-function displayPtoSection(ptos, sectionTitle, container) {
-    if (ptos && ptos.length > 0) {
-        const sectionContainer = document.createElement('div');
+function handleAddPtoClick(employees) {
+    const employeeId = employeeDropdown.value;
+    const startDate = new Date(startDateInput.value);
+    const endDate = new Date(endDateInput.value);
 
-        ptos.forEach(pto => {
-            const ptoDiv = createPtoDiv(pto);
-            sectionContainer.appendChild(ptoDiv);
-        });
+    const allSelectedDays = document.querySelectorAll('.selected');
+    allSelectedDays.forEach(day => {
+        day.classList.remove('selected');
+    });
 
-        const headingPto = document.createElement('p');
-        headingPto.innerText = sectionTitle;
+    if (endDate < startDate) {
+        alert('End date must be greater than or equal to start date!');
+        return;
+    }
 
-        container.appendChild(headingPto);
-        container.appendChild(sectionContainer);
+    const selectedEmployee = employees.find(employee => employee.id === parseInt(employeeId));
+
+    if (selectedEmployee) {
+        if (!selectedEmployee.ptoHistory) {
+            selectedEmployee.ptoHistory = {
+                pastPtos: [],
+                inTheMomentPtos: [],
+                futurePtos: []
+            };
+        }
+
+        const today = new Date();
+        const ptoEntry = {
+            id: generateUniqueId(selectedEmployee.id),
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const startDateTime = new Date(ptoEntry.startDate.getFullYear(), ptoEntry.startDate.getMonth(), ptoEntry.startDate.getDate());
+        const endDateTime = new Date(ptoEntry.endDate.getFullYear(), ptoEntry.endDate.getMonth(), ptoEntry.endDate.getDate());
+
+        if (endDateTime < todayDate) {
+            selectedEmployee.ptoHistory.pastPtos = selectedEmployee.ptoHistory.pastPtos || [];
+            selectedEmployee.ptoHistory.pastPtos.push(ptoEntry);
+        } else if (startDateTime <= todayDate && endDateTime >= todayDate) {
+            selectedEmployee.ptoHistory.inTheMomentPtos = selectedEmployee.ptoHistory.inTheMomentPtos || [];
+            selectedEmployee.ptoHistory.inTheMomentPtos.push(ptoEntry);
+        } else if (startDateTime > todayDate) {
+            selectedEmployee.ptoHistory.futurePtos = selectedEmployee.ptoHistory.futurePtos || [];
+            selectedEmployee.ptoHistory.futurePtos.push(ptoEntry);
+        }
+
+        saveEmployeesToLocalStorage(employees);
+        updateEmployeePto(selectedEmployee);
+        displayEmployees(employees);
+        alert(`Successfully added new PTO for ${selectedEmployee.name}`);
+    } else {
+        console.error('Employee not found');
     }
 }
 
@@ -390,6 +408,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     populateEmployeeDropdown(employees);
 
     const addDataBtn = document.getElementById('addDataBtn');
-    addDataBtn.addEventListener('click',()=> handleAddPtoClick(employees));
+    addDataBtn.addEventListener('click', () => handleAddPtoClick(employees));
 
 });

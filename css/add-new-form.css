@@ -212,29 +212,9 @@ a {
   background-color: #2980b9;
 }
 
-.employeesDiv {
-  border-left: 1px solid black;
-}
-
-.employee-item {
-  background-color: #2980b9;
-  padding: 1em 2em;
-}
-
-.navbar {
-  background-color: #3498db;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-
 @media only screen and (max-width: 950px) {
-
   body {
-    margin:0;
+    margin: 0;
     padding: 0;
   }
   .navbar {
@@ -268,14 +248,6 @@ a {
   }
 
   .date-picker {
-    width: 90%;
-  }
-
-  .employeesDiv {
-    flex-direction: column;
-  }
-
-  .employee-item {
     width: 90%;
   }
 }
